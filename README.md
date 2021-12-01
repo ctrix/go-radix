@@ -10,6 +10,9 @@ As a radix tree, it provides the following:
  * Minimum / Maximum value lookups
  * Ordered iteration
 
+This repository has been forked from [github.com/armon/go-radix](https://github.com/armon/go-radix), most pending pull requests have been committed 
+and the code has been modified to accept `[]byte` instead of `string` as keys.
+
 For an immutable variant, see [go-immutable-radix](https://github.com/hashicorp/go-immutable-radix).
 
 Documentation
@@ -23,16 +26,15 @@ Example
 Below is a simple example of usage
 
 ```go
-// Create a tree
-r := radix.New()
-r.Insert("foo", 1)
-r.Insert("bar", 2)
-r.Insert("foobar", 2)
+	// Create a tree
+	r := New()
+	r.Insert([]byte("foo"), 1)
+	r.Insert([]byte("bar"), 2)
+	r.Insert([]byte("foobar"), 2)
 
-// Find the longest prefix match
-m, _, _ := r.LongestPrefix("foozip")
-if m != "foo" {
-    panic("should be foo")
-}
+	// Find the longest prefix match
+	m, _, _ := r.LongestPrefix([]byte("foozip"))
+	if bytes.Compare(m, []byte("foo")) != 0 {
+		panic("should be foo")
+	}
 ```
-
